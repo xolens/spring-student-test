@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Gestion Etudiants</title>
+
+<!-- Bootstrap core CSS -->
+<link href="public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+<!-- Custom fonts for this template -->
+<link href="public/vendor/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic"
+	rel="stylesheet" type="text/css">
+
+<!-- Custom styles for this template -->
+<link href="public/css/landing-page.css" rel="stylesheet">
+
+<!-- Bootstrap core JavaScript -->
+<script src="public/vendor/jquery/jquery.min.js"></script>
+<script src="public/vendor/popper/popper.min.js"></script>
+<script src="public/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+
+	<div class="container">
+		<form style="text-align: right; padding-top: 10px" th:action="@{/logout}" method="get">
+           	<input class="btn btn-danger" type="submit" value="Se deconnecter"/>
+       	</form>
+		<h3 style="padding: 10px; text-align: center;">
+			Gestion des etudiants <small class="text-muted">Details
+				etudiant</small>
+		</h3>
+		<a href="/"><button class="btn btn-info">Retour page
+				accueil</button></a>
+		<form action="#" th:action="@{/delete}" method="post"
+			style="display: inline;">
+			<span th:if="${etudiant != null && etudiant.isPresent()}"> <input
+				type="hidden" th:value="${etudiant.get().matricule}"
+				name="matricule" /> <input type="submit" value="Supprimer"
+				class="btn btn-danger" />
+			</span>
+		</form>
+		<br /> <br />
+		<div th:fragment="formblock">
+			<form th:action="@{/}" th:object="${etudiant}" method="post">
+
+				<div class="row">
+					<div class="col-md-offset-2 col-md-3">
+						<div class="form-group">
+							<label for="nom" class="control-label">Matricule</label> <input
+								type="text" th:field="*{matricule}" class="form-control"
+								placeholder="Matricule etudiant" /> <span
+								th:if="${oldMatricule != null}"> 
+								<input type="hidden"
+								th:value="${oldMatricule}" name="oldMatricule" /> 
+							</span>
+						</div>
+					</div>
+					<div class="col-md-offset-1 col-md-9">
+						<div class="form-group">
+							<label for="nom" class="control-label">Nom</label> <input
+								type="text" th:field="*{nom}" class="form-control"
+								placeholder="Nom etudiant" />
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-offset-2 col-md-4">
+						<div class="form-group">
+							<label for="nom" class="control-label">Sexe</label> 
+							<select th:field="*{sexe}" class="form-control">
+							    <option th:value="'Homme'" th:text="Homme"></option>
+							    <option th:value="'Femme'" th:text="Femme"></option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-offset-1 col-md-4">
+						<div class="form-group">
+							<label for="nom" class="control-label">Date de Naissance</label> <input
+								type="text" th:field="*{anneeNaissance}" class="form-control"
+								placeholder="Date de Naissance etudiant" />
+						</div>
+					</div>
+					<div class="col-md-offset-1 col-md-4">
+						<div class="form-group">
+							<label for="nom" class="control-label">Niveau Academique</label>
+							<select th:field="*{niveauAcademique}" class="form-control">
+							    <option th:value="'Licence'" th:text="'Licence'"></option>
+							    <option th:value="'Master'" th:text="'Master'"></option>
+							    <option th:value="'Doctorat'" th:text="'Doctorat'"></option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<p th:if="${etudiant != null && etudiant.isPresent()}">
+					<input type="submit" value="Mettre a jour" class="btn btn-primary" />
+				</p>
+				<p th:if="${etudiant == null || !etudiant.isPresent()}">
+					<input type="submit" value="Enregistrer" class="btn btn-primary" />
+				</p>
+			</form>
+		</div>
+	</div>
+
+</body>
+
+</html>

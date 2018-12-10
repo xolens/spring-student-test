@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Gestion Etudiants</title>
+
+<!-- Bootstrap core CSS -->
+<link href="public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+<!-- Custom fonts for this template -->
+<link href="public/vendor/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic"
+	rel="stylesheet" type="text/css">
+
+<!-- Custom styles for this template -->
+<link href="public/css/landing-page.css" rel="stylesheet">
+
+<!-- Bootstrap core JavaScript -->
+<script src="public/vendor/jquery/jquery.min.js"></script>
+<script src="public/vendor/popper/popper.min.js"></script>
+<script src="public/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+	<div class="container">
+		<form style="text-align: right; padding-top: 10px" th:action="@{/logout}" method="get">
+           	<input class="btn btn-danger" type="submit" value="Se deconnecter"/>
+       	</form>
+		<h3 style="padding: 10px; text-align: center;">
+			Gestion des etudiants <small class="text-muted">Liste des
+				etudiants</small>
+		</h3>
+		<!-- Button trigger modal -->
+		<button type="button" class="btn btn-primary" data-toggle="modal"
+			data-target="#exampleModal">Formulaire d'ajout</button><br/><br/>
+
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Ajout etudiant</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div th:insert="student_form.html::formblock"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<table class="table table-striped">
+			<thead class="thead-dark">
+				<tr>
+					<th>Matricule</th>
+					<th>Nom</th>
+					<th>Sexe</th>
+					<th>Date de Naissance</th>
+					<th>Niveau Academique</th>
+					<th>MAJ.</th>
+					<th>SUPP.</th>
+				</tr>
+			</thead>
+			<tr th:each="etudiant : ${etudiants}">
+				<td th:text="${etudiant.matricule}"></td>
+				<td th:text="${etudiant.nom}"></td>
+				<td th:text="${etudiant.sexe}"></td>
+				<td th:text="${etudiant.anneeNaissance}"></td>
+				<td th:text="${etudiant.niveauAcademique}"></td>
+				<td>
+					<form action="#" th:action="@{/}+${etudiant.matricule}"
+						method="get">
+						<input type="hidden" th:value="${etudiant.matricule}"
+							name="matricule" /> <input type="submit" value="MAJ."
+							class="btn btn-info" />
+					</form>
+				</td>
+				<td>
+					<form action="#" th:action="@{/delete}" method="post">
+						<input type="hidden" th:value="${etudiant.matricule}"
+							name="matricule" /> <input type="submit" value="SUPP."
+							class="btn btn-danger" />
+					</form>
+				</td>
+			</tr>
+			<tr th:if="${etudiants.empty}" style="text-align: center;">
+				<td colspan="8">Aucun élément à afficher</td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>
